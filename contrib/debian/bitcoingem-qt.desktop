@@ -1,0 +1,13 @@
+[Desktop Entry]
+Encoding=UTF-8
+Name=BitcoinGem Core
+Comment=BitcoinGem P2P Cryptocurrency
+Comment[de]=Verbinde mit dem BitcoinGem peer-to-peer Netzwerk
+Comment[fr]=BitcoinGem, monnaie virtuelle cryptographique pair à pair
+Comment[tr]=BitcoinGem, eşten eşe kriptografik sanal para birimi
+Exec=bitcoingem-qt %u
+Terminal=false
+Type=Application
+Icon=bitcoingem128
+MimeType=x-scheme-handler/bitcoingem;
+Categories=Office;Finance;

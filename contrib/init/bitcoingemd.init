@@ -1,0 +1,67 @@
+#!/bin/bash
+#
+#  bitcoingemd The BitcoinGem Core server.
+#
+#
+# chkconfig: 345 80 20
+# description: bitcoingemd
+# processname: bitcoingemd
+#
+
+# Source function library.
+. /etc/init.d/functions
+
+# you can override defaults in /etc/sysconfig/bitcoingemd, see below
+if [ -f /etc/sysconfig/bitcoingemd ]; then
+        . /etc/sysconfig/bitcoingemd
+fi
+
+RETVAL=0
+
+prog=bitcoingemd
+# you can override the lockfile via BITCOIND_LOCKFILE in /etc/sysconfig/bitcoingemd
+lockfile=${BITCOIND_LOCKFILE-/var/lock/subsys/bitcoingemd}
+
+# bitcoingemd defaults to /usr/bin/bitcoingemd, override with BITCOIND_BIN
+bitcoingemd=${BITCOIND_BIN-/usr/bin/bitcoingemd}
+
+# bitcoingemd opts default to -disablewallet, override with BITCOIND_OPTS
+bitcoingemd_opts=${BITCOIND_OPTS--disablewallet}
+
+start() {
+    echo -n $"Starting $prog: "
+    daemon $DAEMONOPTS $bitcoingemd $bitcoingemd_opts
+    RETVAL=$?
+    echo
+    [ $RETVAL -eq 0 ] && touch $lockfile
+    return $RETVAL
+}
+
+stop() {
+    echo -n $"Stopping $prog: "
+    killproc $prog
+    RETVAL=$?
+    echo
+    [ $RETVAL -eq 0 ] && rm -f $lockfile
+    return $RETVAL
+}
+
+case "$1" in
+    start)
+        start
+        ;;
+    stop)
+        stop
+        ;;
+    status)
+        status $prog
+        ;;
+    restart)
+        stop
+        start
+        ;;
+    *)
+        echo "Usage: service $prog {start|stop|status|restart}"
+        exit 1
+        ;;
+esac

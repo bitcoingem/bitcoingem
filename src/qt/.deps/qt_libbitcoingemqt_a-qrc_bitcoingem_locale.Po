@@ -1,0 +1,4 @@
+qt/qt_libbitcoingemqt_a-qrc_bitcoingem_locale.o: \
+ qt/qrc_bitcoingem_locale.cpp /usr/include/stdc-predef.h
+
+/usr/include/stdc-predef.h:

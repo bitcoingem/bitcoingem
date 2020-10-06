@@ -1,0 +1,25 @@
+<!DOCTYPE RCC><RCC version="1.0">
+    <qresource prefix="/translations">
+        <file alias="ar">locale/bitcoingem_ar.qm</file>
+        <file alias="bg">locale/bitcoingem_bg.qm</file>
+        <file alias="de">locale/bitcoingem_de.qm</file>
+        <file alias="en">locale/bitcoingem_en.qm</file>
+        <file alias="es">locale/bitcoingem_es.qm</file>
+        <file alias="fi">locale/bitcoingem_fi.qm</file>
+        <file alias="fr">locale/bitcoingem_fr.qm</file>
+        <file alias="it">locale/bitcoingem_it.qm</file>
+        <file alias="ja">locale/bitcoingem_ja.qm</file>
+        <file alias="ko">locale/bitcoingem_ko.qm</file>
+        <file alias="nl">locale/bitcoingem_nl.qm</file>
+        <file alias="pl">locale/bitcoingem_pl.qm</file>
+        <file alias="pt">locale/bitcoingem_pt.qm</file>
+        <file alias="ru">locale/bitcoingem_ru.qm</file>
+        <file alias="sk">locale/bitcoingem_sk.qm</file>
+        <file alias="sv">locale/bitcoingem_sv.qm</file>
+        <file alias="th">locale/bitcoingem_th.qm</file>
+        <file alias="tr">locale/bitcoingem_tr.qm</file>
+        <file alias="vi">locale/bitcoingem_vi.qm</file>
+        <file alias="zh_CN">locale/bitcoingem_zh_CN.qm</file>
+        <file alias="zh_TW">locale/bitcoingem_zh_TW.qm</file>
+    </qresource>
+</RCC>

@@ -1,0 +1,6 @@
+usr/local/bin/bitcoingem-qt usr/bin
+share/pixmaps/bitcoingem32.xpm usr/share/pixmaps
+share/pixmaps/bitcoingem16.xpm usr/share/pixmaps
+share/pixmaps/bitcoingem128.png usr/share/pixmaps
+debian/bitcoingem-qt.desktop usr/share/applications
+debian/bitcoingem-qt.protocol usr/share/kde4/services/

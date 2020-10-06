@@ -1,0 +1,4 @@
+qt/qt_libbitcoingemqt_a-qrc_bitcoingem.o: qt/qrc_bitcoingem.cpp \
+ /usr/include/stdc-predef.h
+
+/usr/include/stdc-predef.h:
