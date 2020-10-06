@@ -1,16 +1,16 @@
-### Hi there 👋
+# Bitcoin Gem (BGEM)
+You can find the latest precompiled CLI and GUI binaries here: https://github.com/bitcoingem/bitcoingem/releases/latest
 
-<!--
-**bitcoingem/bitcoingem** is a ✨ _special_ ✨ repository because its `README.md` (this file) appears on your GitHub profile.
+### Specs
+* PoW + Masternode
+* Algorithm - x11
+* Decimal - 8
+* Supply - 21 million
+* Blocktime - 2 minutes
+* Premine - 2 million
+* Masternode requirement - 1000 BGEM
 
-Here are some ideas to get you started:
-
-- 🔭 I’m currently working on ...
-- 🌱 I’m currently learning ...
-- 👯 I’m looking to collaborate on ...
-- 🤔 I’m looking for help with ...
-- 💬 Ask me about ...
-- 📫 How to reach me: ...
-- 😄 Pronouns: ...
-- ⚡ Fun fact: ...
--->
+### Extras
+* Website - https://bitcoingem.org
+* Mining Pool - http://pool.bitcoingem.org
+* Blockchain Explorer - http://explorer.bitcoingem.org

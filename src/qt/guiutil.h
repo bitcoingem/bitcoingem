@@ -111,11 +111,14 @@ namespace GUIUtil
     // Determine whether a widget is hidden behind other windows
     bool isObscured(QWidget *w);
 
+    // Activate, show and raise the widget
+    void bringToFront(QWidget* w);
+
     // Open debug.log
     void openDebugLogfile();
-	
+
     // Open bitcoingem.conf
-    void openConfigfile();	
+    void openConfigfile();
 
     // Browse backup folder
     void showBackups();
@@ -196,7 +199,7 @@ namespace GUIUtil
 
     /** Return name of current CSS theme */
     QString getThemeName();
-    
+
     /* Convert QString to OS specific boost path through UTF-8 */
     boost::filesystem::path qstringToBoostPath(const QString &path);
 
@@ -229,11 +232,11 @@ namespace GUIUtil
     protected:
         void mouseReleaseEvent(QMouseEvent *event);
     };
-    
+
     class ClickableProgressBar : public QProgressBar
     {
         Q_OBJECT
-        
+
     Q_SIGNALS:
         /** Emitted when the progressbar is clicked. The relative mouse coordinates of the click are
          * passed to the signal.

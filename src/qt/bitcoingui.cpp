@@ -148,12 +148,10 @@ BitcoinGUI::BitcoinGUI(const PlatformStyle *_platformStyle, const NetworkStyle *
     QString userWindowTitle = QString::fromStdString(GetArg("-windowtitle", ""));
     if(!userWindowTitle.isEmpty()) windowTitle += " - " + userWindowTitle;
     windowTitle += " " + networkStyle->getTitleAddText();
-#ifndef Q_OS_MAC
+
     QApplication::setWindowIcon(networkStyle->getTrayAndWindowIcon());
     setWindowIcon(networkStyle->getTrayAndWindowIcon());
-#else
-    MacDockIconHandler::instance()->setIcon(networkStyle->getAppIcon());
-#endif
+
     setWindowTitle(windowTitle);
 
 #if defined(Q_OS_MAC) && QT_VERSION < 0x050000
@@ -466,7 +464,7 @@ void BitcoinGUI::createActions()
 
     // Get restart command-line parameters and handle restart
     connect(rpcConsole, SIGNAL(handleRestart(QStringList)), this, SLOT(handleRestart(QStringList)));
-    
+
     // prevents an open debug window from becoming stuck/unusable on client shutdown
     connect(quitAction, SIGNAL(triggered()), rpcConsole, SLOT(hide()));
 
@@ -606,9 +604,10 @@ void BitcoinGUI::setClientModel(ClientModel *_clientModel)
             // Note: On Mac, the dock icon is also used to provide menu functionality
             // similar to one for tray icon
             MacDockIconHandler *dockIconHandler = MacDockIconHandler::instance();
-            dockIconHandler->setMainWindow((QMainWindow *)this);
-            dockIconMenu = dockIconHandler->dockMenu();
- 
+            connect(dockIconHandler, SIGNAL(dockIconClicked()), this, SLOT(macosDockIconActivated()));
+            dockIconMenu = new QMenu(this);
+            dockIconMenu->setAsDockMenu();
+
             createIconMenu(dockIconMenu);
 #endif
         }
@@ -639,13 +638,13 @@ void BitcoinGUI::setClientModel(ClientModel *_clientModel)
         }
 #endif // ENABLE_WALLET
         unitDisplayControl->setOptionsModel(_clientModel->getOptionsModel());
-        
+
         OptionsModel* optionsModel = _clientModel->getOptionsModel();
         if(optionsModel)
         {
             // be aware of the tray icon disable state change reported by the OptionsModel object.
             connect(optionsModel,SIGNAL(hideTrayIconChanged(bool)),this,SLOT(setTrayIconVisible(bool)));
-        
+
             // initialize the disable state of the tray icon with the current value in the model.
             setTrayIconVisible(optionsModel->getHideTrayIcon());
         }
@@ -769,6 +768,12 @@ void BitcoinGUI::trayIconActivated(QSystemTrayIcon::ActivationReason reason)
         toggleHidden();
     }
 }
+#else
+void BitcoinGUI::macosDockIconActivated()
+{
+    show();
+    activateWindow();
+}
 #endif
 
 void BitcoinGUI::optionsClicked()
@@ -792,10 +797,7 @@ void BitcoinGUI::aboutClicked()
 
 void BitcoinGUI::showDebugWindow()
 {
-    rpcConsole->showNormal();
-    rpcConsole->show();
-    rpcConsole->raise();
-    rpcConsole->activateWindow();
+    GUIUtil::bringToFront(rpcConsole);
 }
 
 void BitcoinGUI::showInfo()
@@ -1351,24 +1353,11 @@ void BitcoinGUI::showNormalIfMinimized(bool fToggleHidden)
     if(!clientModel)
         return;
 
-    // activateWindow() (sometimes) helps with keyboard focus on Windows
-    if (isHidden())
-    {
-        show();
-        activateWindow();
-    }
-    else if (isMinimized())
-    {
-        showNormal();
-        activateWindow();
-    }
-    else if (GUIUtil::isObscured(this))
-    {
-        raise();
-        activateWindow();
-    }
-    else if(fToggleHidden)
+    if (!isHidden() && !isMinimized() && !GUIUtil::isObscured(this) && fToggleHidden) {
         hide();
+    } else {
+        GUIUtil::bringToFront(this);
+    }
 }
 
 void BitcoinGUI::toggleHidden()

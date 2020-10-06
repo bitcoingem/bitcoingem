@@ -77,6 +77,14 @@ extern double NSAppKitVersionNumber;
 #if !defined(NSAppKitVersionNumber10_9)
 #define NSAppKitVersionNumber10_9 1265
 #endif
+
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wdeprecated-declarations"
+
+#include <CoreServices/CoreServices.h>
+#include <QProcess>
+
+void ForceActivation();
 #endif
 
 namespace GUIUtil {
@@ -167,7 +175,7 @@ bool parseBitcoinURI(const QUrl &uri, SendCoinsRecipient *out)
     QUrlQuery uriQuery(uri);
     QList<QPair<QString, QString> > items = uriQuery.queryItems();
 #endif
-    
+
     rv.fUseInstantSend = false;
     for (QList<QPair<QString, QString> >::iterator i = items.begin(); i != items.end(); i++)
     {
@@ -255,7 +263,7 @@ QString formatBitcoinURI(const SendCoinsRecipient &info)
         ret += QString("%1message=%2").arg(paramCount == 0 ? "?" : "&").arg(msg);
         paramCount++;
     }
-    
+
     if(info.fUseInstantSend)
     {
         ret += QString("%1IS=1").arg(paramCount == 0 ? "?" : "&");
@@ -424,6 +432,24 @@ bool isObscured(QWidget *w)
         && checkPoint(QPoint(0, w->height() - 1), w)
         && checkPoint(QPoint(w->width() - 1, w->height() - 1), w)
         && checkPoint(QPoint(w->width() / 2, w->height() / 2), w));
+}
+
+void bringToFront(QWidget* w)
+{
+#ifdef Q_OS_MAC
+    ForceActivation();
+#endif
+
+    if (w) {
+        // activateWindow() (sometimes) helps with keyboard focus on Windows
+        if (w->isMinimized()) {
+            w->showNormal();
+        } else {
+            w->show();
+        }
+        w->activateWindow();
+        w->raise();
+    }
 }
 
 void openDebugLogfile()
@@ -797,12 +823,10 @@ bool SetStartOnSystemStartup(bool fAutoStart)
 
 
 #elif defined(Q_OS_MAC)
-#pragma GCC diagnostic push
-#pragma GCC diagnostic ignored "-Wdeprecated-declarations"
+
 // based on: https://github.com/Mozketo/LaunchAtLoginController/blob/master/LaunchAtLoginController.m
 
-#include <CoreFoundation/CoreFoundation.h>
-#include <CoreServices/CoreServices.h>
+
 
 LSSharedFileListItemRef findStartupItemInList(LSSharedFileListRef list, CFURLRef findUrl);
 LSSharedFileListItemRef findStartupItemInList(LSSharedFileListRef list, CFURLRef findUrl)
@@ -916,7 +940,7 @@ QString getThemeName()
     if(!theme.isEmpty()){
         return theme;
     }
-    return QString("light");  
+    return QString("light");
 }
 
 // Open CSS when configured
@@ -928,18 +952,18 @@ QString loadStyleSheet()
     QString theme = settings.value("theme", "").toString();
 
     if(!theme.isEmpty()){
-        cssName = QString(":/css/") + theme; 
+        cssName = QString(":/css/") + theme;
     }
     else {
-        cssName = QString(":/css/light");  
+        cssName = QString(":/css/light");
         settings.setValue("theme", "light");
     }
-    
-    QFile qFile(cssName);      
+
+    QFile qFile(cssName);
     if (qFile.open(QFile::ReadOnly)) {
         styleSheet = QLatin1String(qFile.readAll());
     }
-        
+
     return styleSheet;
 }
 
@@ -1065,7 +1089,7 @@ void ClickableLabel::mouseReleaseEvent(QMouseEvent *event)
 {
     Q_EMIT clicked(event->pos());
 }
-    
+
 void ClickableProgressBar::mouseReleaseEvent(QMouseEvent *event)
 {
     Q_EMIT clicked(event->pos());
