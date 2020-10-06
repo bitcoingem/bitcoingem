@@ -1,5 +1,6 @@
 # Bitcoin Gem (BGEM)
-You can find the latest precompiled CLI and GUI binaries here: https://github.com/bitcoingem/bitcoingem/releases/latest
+You can find the latest precompiled CLI and GUI binaries here: 
+https://github.com/bitcoingem/bitcoingem/releases/latest
 
 ### Specs
 * PoW + Masternode
